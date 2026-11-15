@@ -445,8 +445,10 @@
   let view;
   function fitView() {
     const aspect = innerWidth / innerHeight;
-    const w = aspect >= 1.1 ? 1000 : aspect >= .8 ? 760 : 560;
-    const h = w / aspect;
+    const baseW = aspect >= 1.1 ? 1000 : aspect >= .8 ? 760 : 560;
+    // on short, wide windows show more of the sides instead of cutting the teacher off under the scene menu
+    const h = Math.max(baseW / aspect, 690);
+    const w = h * aspect;
     // keep the whole room (teacher at the back, three rows of mats in front) above the buttons
     const cy = Math.max(aspect >= 1.1 ? 390 : 470, 935 - h / 2);
     view = { x: 500 - w / 2, y: cy - h / 2, w, h };
@@ -1197,6 +1199,8 @@
   }
   fitView(); addEventListener("resize", fitView);
   drawShore(0, 0);
+  const wanted = new URLSearchParams(location.search).get("scene");
+  if (wanted && SCENES[wanted] && wanted !== scene) setScene(wanted);
   setInterval(() => { if (scene === "rain" && !document.hidden) rippleAt(); }, 700);
   requestAnimationFrame(frame);
 })();
