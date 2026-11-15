@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#f4ede2">
+<title>敲木魚</title>
+<style>
+  :root {
+    --bg: #f4ede2;
+    --bg2: #ebe1d1;
+    --ink: #6b5a4a;
+    --ink-soft: #a8968280;
+    --wood: #c98f5a;
+    --wood-dark: #a46c3d;
+    --wood-light: #e0ad78;
+    --cheek: #f1a7a0;
+    --cushion: #b9c4ae;
+    --cushion-dark: #9aa88d;
+    --ripple: #c98f5a55;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #23201e;
+      --bg2: #1b1917;
+      --ink: #d9cbb8;
+      --ink-soft: #d9cbb855;
+      --wood: #b47e4d;
+      --wood-dark: #8a5a32;
+      --wood-light: #cf9c69;
+      --cheek: #d98b85;
+      --cushion: #59654f;
+      --cushion-dark: #475240;
+      --ripple: #cf9c6944;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 50% 40%, var(--bg) 0%, var(--bg2) 100%);
+    color: var(--ink);
+    font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .hint {
+    position: fixed; top: max(28px, env(safe-area-inset-top)); left: 0; right: 0;
+    text-align: center; font-size: 15px; letter-spacing: .2em; opacity: .7;
+    transition: opacity 1.2s ease;
+  }
+  .hint.gone { opacity: 0; }
+  .stage { position: relative; width: min(78vw, 360px); aspect-ratio: 1 / 1; }
+  .stage svg { width: 100%; height: 100%; overflow: visible; }
+
+  #fish { transform-origin: 160px 230px; transform-box: view-box; }
+  #fish.hit { animation: squish .32s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes squish {
+    0% { transform: scale(1,1); }
+    25% { transform: scale(1.05,.93); }
+    60% { transform: scale(.98,1.03); }
+    100% { transform: scale(1,1); }
+  }
+  #mallet { transform-origin: 300px 40px; transform-box: view-box; transform: rotate(-14deg); transition: transform .35s ease-out; }
+  #mallet.strike { transform: rotate(5deg); transition: transform .07s ease-in; }
+
+  .eyes-open { display: none; }
+  .blink .eyes-closed { display: none; }
+  .blink .eyes-open { display: inline; }
+
+  .ripple {
+    position: absolute; left: 50%; top: 58%;
+    width: 40%; aspect-ratio: 1; border-radius: 50%;
+    border: 2px solid var(--ripple);
+    transform: translate(-50%, -50%) scale(.6);
+    animation: ripple 1.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes ripple { to { transform: translate(-50%, -50%) scale(2.6); opacity: 0; } }
+
+  .word {
+    position: absolute; left: 50%; top: 18%;
+    font-size: 18px; letter-spacing: .15em; white-space: nowrap;
+    color: var(--ink); opacity: 0; pointer-events: none;
+    animation: float 2.4s ease-out forwards;
+  }
+  @keyframes float {
+    0% { transform: translate(-50%, 10px); opacity: 0; }
+    20% { opacity: .85; }
+    100% { transform: translate(-50%, -50px); opacity: 0; }
+  }
+
+  .count {
+    margin-top: 18px; font-size: 14px; letter-spacing: .15em; opacity: .55;
+    font-variant-numeric: tabular-nums; min-height: 1.4em;
+  }
+
+  .bar {
+    position: fixed; bottom: max(24px, env(safe-area-inset-bottom)); left: 0; right: 0;
+    display: flex; justify-content: center; gap: 12px; padding: 0 16px;
+  }
+  .bar button {
+    font: inherit; font-size: 14px; letter-spacing: .1em;
+    color: var(--ink); background: transparent;
+    border: 1.5px solid var(--ink-soft); border-radius: 999px;
+    padding: 9px 18px; cursor: pointer;
+  }
+  .bar button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .guide {
+    position: fixed; bottom: calc(max(24px, env(safe-area-inset-bottom)) + 58px);
+    left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%;
+    background: var(--wood); opacity: 0; pointer-events: none;
+  }
+  .guide.pulse { animation: dot .9s ease-out; }
+  @keyframes dot { 0% { opacity: .9; transform: scale(1.6); } 100% { opacity: 0; transform: scale(1); } }
+</style>
+</head>
+<body>
+  <div class="hint" id="hint">輕輕敲一下</div>
+
+  <div class="stage" id="stage">
+    <svg viewBox="0 0 360 340" aria-label="木魚">
+      <!-- cushion -->
+      <ellipse cx="160" cy="300" rx="130" ry="22" fill="var(--cushion-dark)"/>
+      <ellipse cx="160" cy="292" rx="130" ry="22" fill="var(--cushion)"/>
+
+      <g id="fish">
+        <!-- body -->
+        <path d="M60 230 C 52 150, 110 110, 165 112 C 228 114, 268 160, 262 228 C 258 272, 210 290, 160 290 C 108 290, 64 272, 60 230 Z"
+              fill="var(--wood)"/>
+        <!-- highlight -->
+        <path d="M92 175 C 105 140, 140 126, 170 128" stroke="var(--wood-light)" stroke-width="10" stroke-linecap="round" fill="none" opacity=".7"/>
+        <!-- mouth slit -->
+        <path d="M78 240 C 120 256, 205 258, 246 238" stroke="var(--wood-dark)" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <!-- handle bumps -->
+        <circle cx="165" cy="112" r="10" fill="var(--wood-dark)"/>
+        <!-- face -->
+        <g id="face">
+          <g class="eyes-closed" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" fill="none">
+            <path d="M118 196 q 10 9 20 0"/>
+            <path d="M184 196 q 10 9 20 0"/>
+          </g>
+          <g class="eyes-open" fill="var(--ink)">
+            <circle cx="128" cy="196" r="5"/>
+            <circle cx="194" cy="196" r="5"/>
+          </g>
+          <ellipse cx="108" cy="214" rx="11" ry="6" fill="var(--cheek)" opacity=".7"/>
+          <ellipse cx="214" cy="214" rx="11" ry="6" fill="var(--cheek)" opacity=".7"/>
+          <path d="M154 212 q 7 6 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </g>
+      </g>
+
+      <!-- mallet -->
+      <g id="mallet">
+        <line x1="300" y1="40" x2="236" y2="150" stroke="var(--wood-dark)" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="230" cy="160" r="17" fill="var(--wood-light)" stroke="var(--wood-dark)" stroke-width="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div class="guide" id="guide"></div>
+
+  <div class="bar">
+    <button id="guideBtn" aria-pressed="false">跟著節奏</button>
+    <button id="soundBtn" aria-pressed="true">聲音 開</button>
+  </div>
+
+<script>
+(() => {
+  const words = ["呼～", "慢慢來", "你很安全", "吐氣", "在這裡", "平靜", "沒事的", "放鬆肩膀", "這會過去的", "腳踩著地"];
+  const fish = document.getElementById("fish");
+  const mallet = document.getElementById("mallet");
+  const stage = document.getElementById("stage");
+  const hint = document.getElementById("hint");
+  const countEl = document.getElementById("count");
+  const guide = document.getElementById("guide");
+  const guideBtn = document.getElementById("guideBtn");
+  const soundBtn = document.getElementById("soundBtn");
+
+  let ctx = null, master = null, soundOn = true, count = 0, lastWord = -1;
+
+  function initAudio() {
+    if (ctx) return;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    master.gain.value = 0.9;
+    // a soft room echo so the knock feels like it's in a quiet hall
+    const delay = ctx.createDelay();
+    delay.delayTime.value = 0.11;
+    const fb = ctx.createGain(); fb.gain.value = 0.22;
+    const wet = ctx.createGain(); wet.gain.value = 0.25;
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1800;
+    master.connect(ctx.destination);
+    master.connect(delay); delay.connect(lp); lp.connect(fb); fb.connect(delay);
+    lp.connect(wet); wet.connect(ctx.destination);
+  }
+
+  // hollow wooden "叩": a few quickly decaying resonant partials + a tiny click
+  function knock() {
+    if (!soundOn) return;
+    initAudio();
+    if (ctx.state === "suspended") ctx.resume();
+    const t = ctx.currentTime;
+    const base = 380 * (0.97 + Math.random() * 0.06);
+    [[1, 0.55, 0.28], [2.32, 0.18, 0.10], [3.9, 0.07, 0.05]].forEach(([mult, amp, dur]) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.setValueAtTime(base * mult * 1.04, t);
+      o.frequency.exponentialRampToValueAtTime(base * mult, t + 0.03);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(amp, t + 0.003);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + dur + 0.02);
+    });
+    const len = Math.floor(ctx.sampleRate * 0.02);
+    const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len) ** 3;
+    const n = ctx.createBufferSource(); n.buffer = buf;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2400; bp.Q.value = 1.2;
+    const ng = ctx.createGain(); ng.gain.value = 0.25;
+    n.connect(bp); bp.connect(ng); ng.connect(master);
+    n.start(t);
+  }
+
+  function restart(el, cls) {
+    el.classList.remove(cls);
+    void el.getBBox?.() ?? el.offsetWidth;
+    el.classList.add(cls);
+  }
+
+  function tap() {
+    knock();
+    if (navigator.vibrate) navigator.vibrate(12);
+
+    restart(mallet, "strike");
+    setTimeout(() => mallet.classList.remove("strike"), 80);
+    restart(fish, "hit");
+
+    const r = document.createElement("div");
+    r.className = "ripple";
+    stage.appendChild(r);
+    setTimeout(() => r.remove(), 1700);
+
+    count++;
+    if (count === 1) hint.classList.add("gone");
+    countEl.textContent = count + " 聲";
+
+    if (count % 4 === 1) {
+      let i; do { i = Math.floor(Math.random() * words.length); } while (i === lastWord);
+      lastWord = i;
+      const w = document.createElement("div");
+      w.className = "word";
+      w.textContent = words[i];
+      stage.appendChild(w);
+      setTimeout(() => w.remove(), 2500);
+    }
+  }
+
+  document.body.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".bar")) return;
+    tap();
+  });
+  document.addEventListener("keydown", (e) => {
+    if ((e.code === "Space" || e.code === "Enter") && !e.repeat && !e.target.closest("button")) {
+      e.preventDefault(); tap();
+    }
+  });
+
+  // gentle tempo guide: ~50 beats per minute, slower than a resting heart
+  let guideTimer = null;
+  guideBtn.addEventListener("click", () => {
+    const on = guideBtn.getAttribute("aria-pressed") !== "true";
+    guideBtn.setAttribute("aria-pressed", on);
+    clearInterval(guideTimer);
+    if (on) {
+      const beat = () => restart(guide, "pulse");
+      beat();
+      guideTimer = setInterval(beat, 1200);
+    }
+  });
+
+  soundBtn.addEventListener("click", () => {
+    soundOn = !soundOn;
+    soundBtn.setAttribute("aria-pressed", soundOn);
+    soundBtn.textContent = soundOn ? "聲音 開" : "聲音 關";
+  });
+
+  // occasional slow blink so it feels alive
+  const face = document.getElementById("face");
+  setInterval(() => {
+    if (Math.random() < 0.35) {
+      face.classList.add("blink");
+      setTimeout(() => face.classList.remove("blink"), 900);
+    }
+  }, 4000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#e4ebdf">
+<title>聽頌缽</title>
+<style>
+  :root {
+    --ink: #4f4a40;
+    --ink-soft: #4f4a4055;
+    --ui-bg: #fffaf2d9;
+    --cheek: #f4b2ab;
+    --leaf: #9fb592;
+    --brass: #d6a85c;
+    --brass-dark: #a97a35;
+    --brass-light: #f0d59a;
+    --cushion: #c97f6b;
+    --cushion-dark: #a9634f;
+    --mote: #fffbe6;
+    --star: #ffffff;
+    --scarf: #d9786a;
+    --precip: #7d8f99;
+    --stick: #c49a6c; --stick-band: #8f6a45; --stick-cap: #6e5038;
+    --blanket: #e7b8a3; --mask: #8f86b5;
+
+    /* forest */
+    --f-sky1: #d9e5d6; --f-sky2: #eef0e3;
+    --f-far: #bccdb4; --f-mid: #98b190; --f-near: #779873; --f-trunk: #8b7258;
+    --f-ground: #b2c69f; --f-ground2: #9fb68d; --f-ray: #fffbe6; --f-fern: #86a37a;
+
+    /* sea */
+    --s-sky1: #cfe0e6; --s-sky2: #fbe5d2;
+    --s-sun: #f8c99c; --s-sea: #a3cbd0; --s-sea2: #86b5bd; --s-foam: #fffaf2;
+    --s-sand: #f1e2c8; --s-sand2: #e6d3b3; --s-shell: #f2c4bd;
+
+    /* rain */
+    --r-sky1: #c5ced2; --r-sky2: #e1e4e1;
+    --r-hill1: #b4c0bb; --r-hill2: #9dada6; --r-ground: #b5c0b0; --r-ground2: #a7b3a2;
+    --r-puddle: #cdd8db; --r-umbrella: #d98b78; --r-umbrella2: #c4735f; --r-handle: #8b7258;
+
+    /* snow */
+    --w-sky1: #d6e0ea; --w-sky2: #f2f4f6;
+    --w-mtn: #c8d4df; --w-mtn-shade: #ffffff; --w-ground: #f6f8fa; --w-ground2: #e6ecf1;
+    --w-pine: #7f998d; --w-snowcap: #ffffff;
+
+    /* lake */
+    --l-sky1: #b9b6d3; --l-sky2: #f1d8d6;
+    --l-moon: #fff3d6; --l-hill: #8f93ad; --l-lake: #a9b5cf; --l-lake2: #96a3c0;
+    --l-ground: #8ea38c; --l-ground2: #7d937c; --l-reed: #5f7660;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e6dccb; --ink-soft: #e6dccb55; --ui-bg: #1f1f22d9;
+      --cheek: #d98f88; --leaf: #7e9572;
+      --brass: #c09550; --brass-dark: #8e632a; --brass-light: #e2c286;
+      --cushion: #9a5e4e; --cushion-dark: #7c4a3c;
+      --mote: #f6e58d; --star: #fff8e0; --scarf: #b9604f; --precip: #8da2b0;
+      --stick: #9a7650; --stick-band: #6b4e33; --stick-cap: #523b29;
+      --blanket: #b98a77; --mask: #6c6491;
+
+      --f-sky1: #121a18; --f-sky2: #1d2824;
+      --f-far: #23302a; --f-mid: #1c2822; --f-near: #151f1a; --f-trunk: #2e2620;
+      --f-ground: #1f2b1d; --f-ground2: #1a2419; --f-ray: #c8e6c4; --f-fern: #283a26;
+
+      --s-sky1: #0f1626; --s-sky2: #262b40;
+      --s-sun: #efe7cf; --s-sea: #1f3a4a; --s-sea2: #172e3c; --s-foam: #b9c8cf;
+      --s-sand: #38322d; --s-sand2: #2f2a26; --s-shell: #8d6d68;
+
+      --r-sky1: #12171c; --r-sky2: #20272d;
+      --r-hill1: #252d31; --r-hill2: #1e252a; --r-ground: #212924; --r-ground2: #1c231f;
+      --r-puddle: #2f3a41; --r-umbrella: #9b5547; --r-umbrella2: #7f4438; --r-handle: #5e4a39;
+
+      --w-sky1: #0f1522; --w-sky2: #1f2735;
+      --w-mtn: #2b3443; --w-mtn-shade: #4a5568; --w-ground: #3d4654; --w-ground2: #353d4a;
+      --w-pine: #26332e; --w-snowcap: #aeb8c6;
+
+      --l-sky1: #0b1022; --l-sky2: #232849;
+      --l-moon: #f3ecd2; --l-hill: #161a2c; --l-lake: #1b2240; --l-lake2: #151b34;
+      --l-ground: #1a2420; --l-ground2: #151e1a; --l-reed: #2a3b30;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    color: var(--ink);
+    font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+    overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: manipulation;
+    transition: background 1.5s;
+  }
+  body[data-scene="forest"] { background: var(--f-ground); }
+  body[data-scene="sea"] { background: var(--s-sand); }
+  body[data-scene="rain"] { background: var(--r-ground); }
+  body[data-scene="snow"] { background: var(--w-ground); }
+  body[data-scene="lake"] { background: var(--l-ground); }
+
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #precip { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity 1.2s; }
+
+  .layer { opacity: 0; transition: opacity 1.6s ease; }
+  body[data-scene="forest"] #forest, body[data-scene="sea"] #sea, body[data-scene="rain"] #rain,
+  body[data-scene="snow"] #snow, body[data-scene="lake"] #lake { opacity: 1; }
+  #motes { opacity: 0; transition: opacity 1.6s; }
+  body[data-scene="forest"] #motes, body[data-scene="lake"] #motes { opacity: 1; }
+  .scarf { opacity: 0; transition: opacity 1.2s; }
+  body[data-scene="snow"] .scarf { opacity: 1; }
+
+  .ray { animation: ray 9s ease-in-out infinite; }
+  @keyframes ray { 0%,100% { opacity: .12; } 50% { opacity: .28; } }
+  .mote { animation: drift ease-in-out infinite alternate; }
+  @keyframes drift {
+    0% { transform: translate(0, 0); opacity: .15; }
+    50% { opacity: .9; }
+    100% { transform: translate(var(--dx), var(--dy)); opacity: .2; }
+  }
+  .star { animation: twinkle ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: .15; } to { opacity: .9; } }
+  .waveline { animation: slide linear infinite; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-200px); } }
+  .ripple { fill: none; stroke: var(--precip); stroke-width: 1.5; transform-box: fill-box; transform-origin: center;
+            animation: ripple 1.6s ease-out forwards; }
+  @keyframes ripple { from { transform: scale(.2); opacity: .8; } to { transform: scale(1.6); opacity: 0; } }
+  .shimmer { animation: shimmer 4s ease-in-out infinite alternate; }
+  @keyframes shimmer { from { opacity: .3; transform: scaleX(.85); } to { opacity: .8; transform: scaleX(1.1); } }
+  .shimmer { transform-box: fill-box; transform-origin: center; }
+
+  #mochi .body { transform-box: fill-box; transform-origin: 50% 100%; animation: idle 5s ease-in-out infinite; }
+  @keyframes idle { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.025,1.04); } }
+  #mochi.sway .body { animation: sway 2.4s ease-in-out; }
+  @keyframes sway {
+    0% { transform: rotate(0); } 30% { transform: rotate(-3deg) scale(1.02,1.03); }
+    65% { transform: rotate(2deg); } 100% { transform: rotate(0); }
+  }
+
+  .bowl { cursor: pointer; }
+  .bowl .shape { transform-box: fill-box; transform-origin: 50% 100%; }
+  .bowl.hit .shape { animation: shiver .9s ease-out; }
+  @keyframes shiver {
+    0% { transform: scale(1); } 10% { transform: scale(1.04, .97); } 25% { transform: scale(.99, 1.01); }
+    45% { transform: scale(1.01, .995); } 100% { transform: scale(1); }
+  }
+  .soundring { fill: none; stroke: var(--brass-light); stroke-width: 2.5; transform-box: fill-box; transform-origin: center;
+               animation: soundring 4s ease-out forwards; pointer-events: none; }
+  @keyframes soundring { from { transform: scale(.5); opacity: .8; } to { transform: scale(5); opacity: 0; } }
+
+  .umbrella { opacity: 0; transition: opacity 1.2s; }
+  body[data-scene="rain"] .umbrella { opacity: 1; }
+
+  /* ---------- yoga mats ---------- */
+  .mat { cursor: pointer; }
+  .mat .glow { opacity: 0; transition: opacity .4s; }
+  body.choosing .mat.free .glow { opacity: .55; animation: matglow 2.4s ease-in-out infinite; }
+  @keyframes matglow { 0%,100% { opacity: .2; } 50% { opacity: .6; } }
+  .lying .lbody { transform-box: fill-box; transform-origin: 50% 100%; animation: liebreath 6s ease-in-out infinite; }
+  @keyframes liebreath { 0%,100% { transform: scaleY(1); } 45% { transform: scaleY(1.07); } }
+  .lying.plop { animation: plop .6s cubic-bezier(.3,1.6,.5,1); transform-box: fill-box; transform-origin: 50% 100%; }
+  @keyframes plop { from { transform: translateY(-24px) scale(.9); opacity: 0; } to { transform: none; opacity: 1; } }
+  .lying .blanket, .lying .mask { opacity: 0; transition: opacity .7s; }
+  .lying.blanketed .blanket, .lying.masked .mask { opacity: 1; }
+  .lying .tag { font-size: 13px; fill: var(--ink); opacity: .6; letter-spacing: .1em; }
+
+  #dim {
+    position: fixed; inset: 0; pointer-events: none; opacity: 0; transition: opacity 2.5s;
+    background: radial-gradient(ellipse at 50% 55%, #0b0c1066 0%, #0b0c10cc 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #dim span { color: #f3ecdf; font-size: 15px; letter-spacing: .3em; opacity: 0; transition: opacity 2s; }
+  body.eyesclosed #dim { opacity: 1; }
+  body.eyesclosed #dim span.show { opacity: .8; }
+
+  .rainstick { cursor: pointer; }
+  .rainstick .stick { transform-box: fill-box; transform-origin: center; transition: transform 1.3s cubic-bezier(.45,0,.3,1); }
+  .rainstick.flipped .stick { transform: rotate(180deg); }
+  .rainstick .grains circle { transition: transform 5s linear; }
+  .rainstick.pouring .grains circle { animation: trickle .5s linear infinite; }
+  .rainstick.pouring .grains circle:nth-child(odd) { animation-duration: .7s; }
+  @keyframes trickle { from { transform: translateY(-8px); opacity: .2; } 50% { opacity: .9; } to { transform: translateY(8px); opacity: .2; } }
+
+  /* ---------- UI ---------- */
+  .top {
+    position: fixed; top: max(14px, env(safe-area-inset-top)); left: 12px; right: 12px;
+    display: flex; justify-content: center; pointer-events: none;
+  }
+  .seg {
+    pointer-events: auto; display: flex; gap: 2px; padding: 4px; border-radius: 999px;
+    background: var(--ui-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--ink-soft); max-width: 100%; overflow-x: auto; scrollbar-width: none;
+  }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg button, .bar button {
+    font: inherit; color: var(--ink); background: transparent; border: 0; cursor: pointer;
+    border-radius: 999px; padding: 8px 13px; font-size: 14px; letter-spacing: .1em; white-space: nowrap; flex: none;
+  }
+  .seg button[aria-pressed="true"], .bar button[aria-pressed="true"] { background: var(--ink); color: var(--ui-bg); }
+
+  .bar {
+    position: fixed; bottom: max(18px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
+    display: flex; gap: 4px; padding: 5px; border-radius: 999px; white-space: nowrap;
+    background: var(--ui-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--ink-soft);
+  }
+  .bar button { padding: 8px 14px; font-size: 13px; }
+  .bar.lie { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 56px); opacity: 0; pointer-events: none; transition: opacity .5s; }
+  body.lying-down .bar.lie { opacity: 1; pointer-events: auto; }
+  body.lying-down .caption { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 116px); }
+  body.lying-down .menu { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 112px); }
+  #pieceBtn::before { content: "♪ "; opacity: .7; }
+
+  .menu {
+    position: fixed; left: 50%; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 60px);
+    transform: translate(-50%, 8px); width: min(340px, calc(100vw - 32px));
+    background: var(--ui-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--ink-soft); border-radius: 20px; padding: 8px;
+    opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s;
+  }
+  .menu.open { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  .menu button {
+    display: block; width: 100%; text-align: left; font: inherit; color: var(--ink);
+    background: transparent; border: 0; border-radius: 14px; padding: 10px 14px; cursor: pointer;
+  }
+  .menu button b { display: block; font-weight: 500; font-size: 15px; letter-spacing: .12em; }
+  .menu button span { display: block; font-size: 12px; opacity: .65; margin-top: 3px; letter-spacing: .05em; }
+  .menu button[aria-pressed="true"] { background: var(--ink-soft); }
+
+  .caption {
+    position: fixed; left: 0; right: 0; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 66px);
+    text-align: center; font-size: 14px; letter-spacing: .25em; opacity: .7; pointer-events: none;
+    transition: opacity .8s;
+  }
+  .caption.big { font-size: 22px; letter-spacing: .5em; padding-left: .5em; }
+
+  .start {
+    position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; cursor: pointer; transition: opacity 1.2s;
+    background: radial-gradient(ellipse at 50% 45%, #00000000 0%, #00000022 100%);
+  }
+  .start.gone { opacity: 0; pointer-events: none; }
+  .start .card {
+    background: var(--ui-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--ink-soft); border-radius: 24px; padding: 26px 34px; text-align: center;
+    max-width: calc(100vw - 32px);
+  }
+  .start h1 { margin: 0 0 8px; font-weight: 500; font-size: 24px; letter-spacing: .4em; padding-left: .4em; }
+  .start p { margin: 0 0 18px; font-size: 14px; letter-spacing: .12em; opacity: .7; line-height: 1.7; }
+  .start .go {
+    display: inline-block; padding: 10px 26px; border-radius: 999px; background: var(--ink); color: var(--ui-bg);
+    font-size: 15px; letter-spacing: .2em;
+  }
+  @media (prefers-color-scheme: dark) {
+    .mat .base, .mat .top { filter: brightness(.5) saturate(.8); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mote, .star, .waveline, .ray, .shimmer { animation: none; }
+  }
+</style>
+</head>
+<body data-scene="forest">
+<svg id="scene" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--f-sky1)"/><stop offset="1" stop-color="var(--f-sky2)"/></linearGradient>
+    <linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--s-sky1)"/><stop offset="1" stop-color="var(--s-sky2)"/></linearGradient>
+    <linearGradient id="rsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--r-sky1)"/><stop offset="1" stop-color="var(--r-sky2)"/></linearGradient>
+    <linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--w-sky1)"/><stop offset="1" stop-color="var(--w-sky2)"/></linearGradient>
+    <linearGradient id="lsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--l-sky1)"/><stop offset="1" stop-color="var(--l-sky2)"/></linearGradient>
+    <linearGradient id="fray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--f-ray)" stop-opacity="1"/><stop offset="1" stop-color="var(--f-ray)" stop-opacity="0"/></linearGradient>
+    <radialGradient id="sunglow"><stop offset="0" stop-color="var(--s-sun)" stop-opacity=".9"/><stop offset="1" stop-color="var(--s-sun)" stop-opacity="0"/></radialGradient>
+    <radialGradient id="moonglow"><stop offset="0" stop-color="var(--l-moon)" stop-opacity=".6"/><stop offset="1" stop-color="var(--l-moon)" stop-opacity="0"/></radialGradient>
+    <linearGradient id="brass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="var(--brass-dark)"/><stop offset=".45" stop-color="var(--brass-light)"/><stop offset="1" stop-color="var(--brass-dark)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ===== forest ===== -->
+  <g id="forest" class="layer">
+    <rect x="-600" y="-900" width="2200" height="1400" fill="url(#fsky)"/>
+    <rect x="-600" y="440" width="2200" height="40" fill="var(--f-far)"/>
+    <g id="fFar"></g>
+    <g>
+      <polygon class="ray" points="560,-200 640,-200 820,520 560,520" fill="url(#fray)"/>
+      <polygon class="ray" points="300,-200 350,-200 470,520 320,520" fill="url(#fray)" style="animation-delay:-3s"/>
+      <polygon class="ray" points="720,-200 760,-200 980,520 860,520" fill="url(#fray)" style="animation-delay:-6s"/>
+    </g>
+    <g id="fMid"></g>
+    <rect x="-600" y="470" width="2200" height="1400" fill="var(--f-ground)"/>
+    <path d="M-600 470 C -200 450, 200 490, 500 468 C 800 448, 1200 488, 1600 466 L 1600 520 L -600 520 Z" fill="var(--f-ground2)"/>
+    <g id="fNear"></g>
+    <g id="ferns"></g>
+  </g>
+
+  <!-- ===== sea ===== -->
+  <g id="sea" class="layer">
+    <rect x="-600" y="-900" width="2200" height="1300" fill="url(#ssky)"/>
+    <circle cx="640" cy="360" r="120" fill="url(#sunglow)"/>
+    <circle cx="640" cy="352" r="40" fill="var(--s-sun)"/>
+    <rect x="-600" y="360" width="2200" height="160" fill="var(--s-sea)"/>
+    <rect x="-600" y="420" width="2200" height="100" fill="var(--s-sea2)" opacity=".6"/>
+    <g opacity=".5" fill="var(--s-sun)">
+      <rect x="610" y="368" width="60" height="3" rx="1.5"/><rect x="600" y="380" width="80" height="3" rx="1.5"/>
+      <rect x="615" y="394" width="50" height="3" rx="1.5"/><rect x="625" y="410" width="30" height="3" rx="1.5"/>
+    </g>
+    <g id="wavelines" stroke="var(--s-foam)" stroke-width="2" fill="none" opacity=".5" stroke-linecap="round"></g>
+    <rect x="-600" y="470" width="2200" height="1400" fill="var(--s-sand)"/>
+    <path id="wetsand" d="" fill="var(--s-sand2)"/>
+    <path id="foam" d="" fill="none" stroke="var(--s-foam)" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+    <g fill="var(--s-shell)">
+      <path d="M260 640 q 12 -18 24 0 z"/><path d="M780 700 q 9 -14 18 0 z"/>
+      <circle cx="700" cy="620" r="4" opacity=".7"/><circle cx="330" cy="720" r="3" opacity=".7"/>
+    </g>
+  </g>
+
+  <!-- ===== rain ===== -->
+  <g id="rain" class="layer">
+    <rect x="-600" y="-900" width="2200" height="1400" fill="url(#rsky)"/>
+    <path d="M-600 400 C -300 330, -100 300, 120 340 C 300 270, 460 290, 600 330 C 760 280, 900 290, 1100 340 L 1600 380 L 1600 500 L -600 500 Z" fill="var(--r-hill1)"/>
+    <path d="M-600 440 C -200 390, 100 380, 300 420 C 500 380, 700 390, 900 420 C 1100 390, 1300 400, 1600 430 L 1600 500 L -600 500 Z" fill="var(--r-hill2)"/>
+    <rect x="-600" y="470" width="2200" height="1400" fill="var(--r-ground)"/>
+    <path d="M-600 470 C -200 460, 200 486, 500 472 C 800 458, 1200 484, 1600 470 L 1600 500 L -600 500 Z" fill="var(--r-ground2)"/>
+    <g id="puddles"></g>
+  </g>
+
+  <!-- ===== snow ===== -->
+  <g id="snow" class="layer">
+    <rect x="-600" y="-900" width="2200" height="1400" fill="url(#wsky)"/>
+    <g id="wStars"></g>
+    <path d="M-600 420 L -250 250 L -120 330 L 120 170 L 330 360 L 520 210 L 700 340 L 860 190 L 1100 360 L 1300 260 L 1600 420 L 1600 500 L -600 500 Z" fill="var(--w-mtn)"/>
+    <g id="wCaps" fill="var(--w-mtn-shade)"></g>
+    <g id="wPines"></g>
+    <rect x="-600" y="470" width="2200" height="1400" fill="var(--w-ground)"/>
+    <path d="M-600 470 C -200 452, 200 488, 500 466 C 800 448, 1200 486, 1600 464 L 1600 500 L -600 500 Z" fill="var(--w-ground2)"/>
+    <g fill="var(--w-ground2)">
+      <ellipse cx="250" cy="700" rx="120" ry="16"/><ellipse cx="780" cy="640" rx="100" ry="12"/><ellipse cx="560" cy="820" rx="140" ry="18"/>
+    </g>
+    <g id="wNear"></g>
+  </g>
+
+  <!-- ===== lake ===== -->
+  <g id="lake" class="layer">
+    <rect x="-600" y="-900" width="2200" height="1400" fill="url(#lsky)"/>
+    <g id="lStars"></g>
+    <circle cx="680" cy="200" r="90" fill="url(#moonglow)"/>
+    <circle cx="680" cy="200" r="30" fill="var(--l-moon)"/>
+    <path d="M-600 400 C -300 360, -100 340, 150 370 C 330 340, 450 350, 560 372 C 720 345, 900 350, 1100 375 L 1600 400 L 1600 420 L -600 420 Z" fill="var(--l-hill)"/>
+    <rect x="-600" y="398" width="2200" height="100" fill="var(--l-lake)"/>
+    <rect x="-600" y="440" width="2200" height="60" fill="var(--l-lake2)" opacity=".7"/>
+    <g fill="var(--l-moon)">
+      <rect class="shimmer" x="650" y="408" width="60" height="3" rx="1.5"/>
+      <rect class="shimmer" x="640" y="422" width="80" height="3" rx="1.5" style="animation-delay:-1.3s"/>
+      <rect class="shimmer" x="655" y="438" width="50" height="3" rx="1.5" style="animation-delay:-2.6s"/>
+      <rect class="shimmer" x="665" y="456" width="30" height="3" rx="1.5" style="animation-delay:-.7s"/>
+    </g>
+    <g fill="var(--l-ground2)" opacity=".9">
+      <ellipse cx="330" cy="452" rx="18" ry="4"/><ellipse cx="380" cy="470" rx="14" ry="3.5"/><ellipse cx="820" cy="462" rx="16" ry="4"/>
+    </g>
+    <rect x="-600" y="486" width="2200" height="1400" fill="var(--l-ground)"/>
+    <path d="M-600 486 C -200 476, 200 500, 500 490 C 800 478, 1200 500, 1600 486 L 1600 520 L -600 520 Z" fill="var(--l-ground2)"/>
+    <g id="reeds" stroke="var(--l-reed)" stroke-width="3" stroke-linecap="round" fill="none"></g>
+  </g>
+
+  <g id="motes"></g>
+
+  <!-- ===== the little listener and the bowls ===== -->
+  <!-- the teacher, bowls and rain stick, drawn at full size then shrunk to sit at the front of the room -->
+  <g id="spot" transform="translate(500 482) scale(.62) translate(-500 -560)">
+    <!-- a paper umbrella for rainy days -->
+    <g class="umbrella" transform="translate(500 548)">
+      <line x1="6" y1="-150" x2="6" y2="0" stroke="var(--r-handle)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-104 -132 Q 6 -230 116 -132 Q 88 -142 61 -132 Q 34 -142 6 -132 Q -22 -142 -49 -132 Q -76 -142 -104 -132 Z" fill="var(--r-umbrella)"/>
+      <g stroke="var(--r-umbrella2)" stroke-width="2" fill="none">
+        <path d="M6 -190 L -49 -133"/><path d="M6 -190 L 61 -133"/><path d="M6 -190 L 6 -133"/>
+      </g>
+      <circle cx="6" cy="-192" r="5" fill="var(--r-handle)"/>
+    </g>
+    <g transform="translate(500 548)">
+      <ellipse cx="0" cy="6" rx="62" ry="15" fill="var(--cushion-dark)"/>
+      <ellipse cx="0" cy="0" rx="60" ry="14" fill="var(--cushion)"/>
+    </g>
+    <g id="mochi" transform="translate(500 546) scale(1.35)">
+      <g class="body">
+        <path d="M-40 0 C -46 -38, -24 -64, 0 -64 C 24 -64, 46 -38, 40 0 C 38 6, -38 6, -40 0 Z" fill="#fffaf2" stroke="#e8dccb" stroke-width="2.5"/>
+        <path d="M-36 -6 C -14 4, 14 4, 36 -6 C 36 2, 20 4, 0 4 C -20 4, -36 2, -36 -6 Z" fill="#e8dccb" opacity=".5"/>
+        <g stroke="#5f5245" stroke-width="2.6" stroke-linecap="round" fill="none">
+          <path d="M-19 -32 q 6 5 12 0"/><path d="M7 -32 q 6 5 12 0"/>
+        </g>
+        <ellipse cx="-25" cy="-22" rx="7" ry="4" fill="var(--cheek)" opacity=".75"/>
+        <ellipse cx="25" cy="-22" rx="7" ry="4" fill="var(--cheek)" opacity=".75"/>
+        <path d="M-4 -23 q 4 3 8 0" stroke="#5f5245" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <!-- the teacher wears a little topknot -->
+        <circle cx="0" cy="-68" r="9" fill="#efe3d0" stroke="#e8dccb" stroke-width="2"/>
+        <g class="scarf">
+          <path d="M-40 -15 C -14 -4, 14 -4, 40 -15 L 41 -5 C 14 6, -14 6, -41 -5 Z" fill="var(--scarf)"/>
+          <path d="M16 -4 L 20 18 L 30 16 L 27 -6 Z" fill="var(--scarf)"/>
+          <path d="M-30 -10 L -28 -2 M-18 -7 L -17 1 M-6 -6 L -6 2 M6 -6 L 6 2" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+        </g>
+      </g>
+    </g>
+    <g id="bowls"></g>
+  </g>
+  <g id="mats"></g>
+</svg>
+<div id="dim"><span>閉上眼睛，聽就好</span></div>
+<canvas id="precip"></canvas>
+
+<div class="top">
+  <div class="seg" role="group" aria-label="場景" id="sceneSeg"></div>
+</div>
+
+<div class="caption" id="caption">點頌缽可以自己敲</div>
+
+<div class="menu" id="menu" role="menu" aria-label="頌缽曲目"></div>
+
+<div class="bar lie" id="lieBar">
+  <button id="blanketBtn" aria-pressed="false">蓋毯子</button>
+  <button id="maskBtn" aria-pressed="false">戴眼罩</button>
+  <button id="upBtn">起來</button>
+</div>
+
+<div class="bar">
+  <button id="pieceBtn" aria-haspopup="menu" aria-expanded="false">隨心</button>
+  <button id="ambBtn" aria-pressed="true">環境聲</button>
+  <button id="timerBtn" aria-pressed="false">計時 不限</button>
+</div>
+
+<div class="start" id="start">
+  <div class="card">
+    <h1>聽頌缽</h1>
+    <p>選一張瑜伽墊躺下，蓋上毯子<br>戴上耳機，聽就好</p>
+    <span class="go">開始聆聽</span>
+  </div>
+</div>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("scene");
+  const el = (tag, attrs = {}, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+  /* ---------- framing for any screen shape ---------- */
+  let view;
+  function fitView() {
+    const aspect = innerWidth / innerHeight;
+    const w = aspect >= 1.1 ? 1000 : aspect >= .8 ? 760 : 560;
+    const h = w / aspect;
+    // keep the whole room (teacher at the back, three rows of mats in front) above the buttons
+    const cy = Math.max(aspect >= 1.1 ? 390 : 470, 935 - h / 2);
+    view = { x: 500 - w / 2, y: cy - h / 2, w, h };
+    svg.setAttribute("viewBox", `${view.x} ${view.y} ${w} ${h}`);
+    sizeCanvas();
+  }
+
+  /* ---------- scenery builders ---------- */
+  function pine(parent, x, base, h, fill, cap) {
+    const w = h * .42;
+    const g = el("g", {}, parent);
+    el("rect", { x: x - h * .03, y: base - h * .15, width: h * .06, height: h * .17, fill: "var(--f-trunk)" }, g);
+    for (let i = 0; i < 3; i++) {
+      const top = base - h + i * h * .24, bot = base - h * .12 - (2 - i) * h * .18;
+      const ww = w * (.55 + i * .25);
+      el("path", { d: `M${x} ${top} L ${x + ww} ${bot} Q ${x} ${bot + h * .05} ${x - ww} ${bot} Z`, fill }, g);
+      if (cap) {
+        const cb = top + (bot - top) * .45, cw = ww * .45;
+        el("path", { d: `M${x} ${top} L ${x + cw} ${cb} Q ${x + cw * .3} ${cb - 5} ${x} ${cb + 4} Q ${x - cw * .3} ${cb - 5} ${x - cw} ${cb} Z`, fill: cap }, g);
+      }
+    }
+  }
+  function stars(parent, n, maxY) {
+    for (let i = 0; i < n; i++) el("circle", {
+      class: "star", cx: rand(-300, 1300), cy: rand(-600, maxY), r: rand(.8, 2), fill: "var(--star)",
+      style: `animation-duration:${rand(2, 5)}s; animation-delay:${rand(-5, 0)}s`
+    }, parent);
+  }
+
+  // forest
+  const fFar = document.getElementById("fFar"), fMid = document.getElementById("fMid"), fNear = document.getElementById("fNear");
+  for (let x = -560; x < 1600; x += 70) pine(fFar, x + rand(-15, 15), 480, rand(150, 220), "var(--f-far)");
+  for (let x = -540; x < 1600; x += 120) if (Math.abs(x - 500) > 140) pine(fMid, x + rand(-25, 25), 490, rand(230, 300), "var(--f-mid)");
+  [[-120, 620], [130, 600], [880, 610], [1120, 630]].forEach(([x, b]) => pine(fNear, x, b, 520, "var(--f-near)"));
+  const ferns = document.getElementById("ferns");
+  [[300, 600], [690, 590], [240, 760], [770, 740], [420, 820], [600, 860]].forEach(([x, y]) => {
+    const g = el("g", { transform: `translate(${x} ${y})`, stroke: "var(--f-fern)", "stroke-width": 4, "stroke-linecap": "round", fill: "none" }, ferns);
+    [-40, -18, 0, 18, 40].forEach(a => el("path", { d: `M0 0 Q ${a * .6} -24 ${a} -34` }, g));
+  });
+
+  // sea
+  const wavelines = document.getElementById("wavelines");
+  [[378, 40], [396, 55], [418, 70], [444, 90]].forEach(([y, dur], i) => {
+    let d = "";
+    for (let x = -800; x < 1800; x += 100) d += `M${x + (i % 2) * 50} ${y} q 25 -5 50 0 `;
+    el("path", { d, class: "waveline", style: `animation-duration:${dur}s` }, wavelines);
+  });
+  const wetsand = document.getElementById("wetsand"), foam = document.getElementById("foam");
+  function drawShore(level, t) {
+    const y0 = 470 + level * 46;
+    let top = `M-600 470 L -600 ${y0}`, line = "";
+    for (let x = -600; x <= 1600; x += 50) {
+      const y = y0 + Math.sin(x / 90 + t * .4) * 5 + Math.sin(x / 37) * 3;
+      top += ` L ${x} ${y.toFixed(1)}`;
+      line += (x === -600 ? "M" : " L ") + `${x} ${y.toFixed(1)}`;
+    }
+    wetsand.setAttribute("d", top + " L 1600 470 Z");
+    foam.setAttribute("d", line);
+    foam.setAttribute("opacity", (.35 + level * .6).toFixed(2));
+  }
+
+  // rain
+  const puddleG = document.getElementById("puddles");
+  const puddles = [[300, 630, 80, 16], [720, 610, 66, 13], [580, 780, 96, 18], [230, 820, 60, 12], [820, 760, 70, 14]];
+  puddles.forEach(([cx, cy, rx, ry]) => el("ellipse", { cx, cy, rx, ry, fill: "var(--r-puddle)" }, puddleG));
+  function rippleAt() {
+    const [cx, cy, rx, ry] = pick(puddles);
+    const x = cx + rand(-.6, .6) * rx, y = cy + rand(-.4, .4) * ry, s = rand(.6, 1.1);
+    const r = el("ellipse", { class: "ripple", cx: x, cy: y, rx: 16 * s, ry: 4 * s }, puddleG);
+    setTimeout(() => r.remove(), 1700);
+  }
+
+  // snow
+  stars(document.getElementById("wStars"), 40, 250);
+  const wCaps = document.getElementById("wCaps");
+  [[-250, 250], [120, 170], [520, 210], [860, 190], [1300, 260]].forEach(([x, y]) => {
+    // snowcap follows the slopes of the ridge (left slope ~0.9, right slope ~1.1)
+    el("path", { d: `M${x} ${y} L ${x + 52} ${y + 56} L ${x + 26} ${y + 46} L ${x + 4} ${y + 60} L ${x - 20} ${y + 44} L ${x - 48} ${y + 52} Z` }, wCaps);
+  });
+  const wPines = document.getElementById("wPines"), wNear = document.getElementById("wNear");
+  for (let x = -540; x < 1600; x += 90) if (Math.abs(x - 500) > 150) pine(wPines, x + rand(-20, 20), 486, rand(140, 200), "var(--w-pine)", "var(--w-snowcap)");
+  [[-100, 640], [140, 620], [870, 625], [1110, 650]].forEach(([x, b]) => pine(wNear, x, b, 460, "var(--w-pine)", "var(--w-snowcap)"));
+
+  // lake
+  stars(document.getElementById("lStars"), 70, 340);
+  const reeds = document.getElementById("reeds");
+  [[230, 500], [262, 506], [290, 498], [700, 504], [735, 498], [770, 508], [180, 560], [820, 570]].forEach(([x, y]) => {
+    const h = rand(50, 90), lean = rand(-12, 12);
+    el("path", { d: `M${x} ${y} Q ${x + lean * .3} ${y - h * .6} ${x + lean} ${y - h}` }, reeds);
+    el("ellipse", { cx: x + lean, cy: y - h + 6, rx: 3.5, ry: 10, fill: "var(--l-reed)", stroke: "none", transform: `rotate(${lean * .8} ${x + lean} ${y - h + 6})` }, reeds);
+  });
+
+  // motes / fireflies (forest + lake)
+  const motes = document.getElementById("motes");
+  for (let i = 0; i < 18; i++) el("circle", {
+    class: "mote", cx: rand(150, 850), cy: rand(200, 700), r: rand(1.5, 3.5), fill: "var(--mote)",
+    style: `--dx:${rand(-40, 40)}px; --dy:${rand(-50, 20)}px; animation-duration:${rand(5, 11)}s; animation-delay:${rand(-10, 0)}s`
+  }, motes);
+
+  /* ---------- rain & snow particles ---------- */
+  const canvas = document.getElementById("precip"), c2d = canvas.getContext("2d");
+  let particles = [], precipType = null, dpr = 1;
+  function sizeCanvas() {
+    dpr = Math.min(2, devicePixelRatio || 1);
+    canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
+  }
+  function setPrecip(type) {
+    precipType = type; particles = [];
+    const n = type === "rain" ? 140 : type === "snow" ? 110 : 0;
+    for (let i = 0; i < n; i++) particles.push(newParticle(true));
+  }
+  function newParticle(anywhere) {
+    const W = innerWidth, H = innerHeight;
+    return precipType === "rain"
+      ? { x: rand(-50, W + 50), y: anywhere ? rand(-H, H) : rand(-80, -10), len: rand(10, 22), v: rand(650, 900), a: rand(.25, .55) }
+      : { x: rand(0, W), y: anywhere ? rand(-H, H) : -10, r: rand(1.2, 3.4), v: rand(25, 60), ph: rand(0, 6.28), a: rand(.5, .95) };
+  }
+  function drawPrecip(dt, t) {
+    c2d.setTransform(dpr, 0, 0, dpr, 0, 0);
+    c2d.clearRect(0, 0, innerWidth, innerHeight);
+    if (!precipType) return;
+    const col = getComputedStyle(document.documentElement).getPropertyValue(precipType === "rain" ? "--precip" : "--w-snowcap").trim();
+    c2d.strokeStyle = col; c2d.fillStyle = col; c2d.lineCap = "round"; c2d.lineWidth = 1.2;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      if (precipType === "rain") {
+        p.y += p.v * dt; p.x -= p.v * dt * .12;
+        c2d.globalAlpha = p.a;
+        c2d.beginPath(); c2d.moveTo(p.x, p.y); c2d.lineTo(p.x + p.len * .12, p.y - p.len); c2d.stroke();
+      } else {
+        p.y += p.v * dt; p.x += Math.sin(t * .6 + p.ph) * 18 * dt;
+        c2d.globalAlpha = p.a;
+        c2d.beginPath(); c2d.arc(p.x, p.y, p.r, 0, 6.283); c2d.fill();
+      }
+      if (p.y > innerHeight + 30) particles[i] = newParticle(false);
+    }
+    c2d.globalAlpha = 1;
+  }
+
+  /* ---------- bowls ---------- */
+  // Seven bowls, low to high. Two big ones sit beside the little listener, five in a row in front.
+  const bowlDefs = [
+    { x: 362, y: 588, size: 1.12, freq: 131 },
+    { x: 638, y: 588, size: 1.02, freq: 147 },
+    { x: 340, y: 672, size: .9,  freq: 165 },
+    { x: 420, y: 680, size: .84, freq: 196 },
+    { x: 500, y: 684, size: .78, freq: 220 },
+    { x: 580, y: 680, size: .72, freq: 262 },
+    { x: 660, y: 672, size: .66, freq: 294 },
+  ];
+  const BIG = 0, MID = 4, SMALL = 6;
+  const bowlsG = document.getElementById("bowls");
+  bowlDefs.forEach((b, i) => {
+    const g = el("g", { class: "bowl", transform: `translate(${b.x} ${b.y})`, role: "button", "aria-label": `頌缽 ${i + 1}` }, bowlsG);
+    el("ellipse", { cx: 0, cy: 6, rx: 52 * b.size, ry: 9 * b.size, fill: "#000", opacity: .1 }, g);
+    const s = el("g", { class: "shape", transform: `scale(${b.size})` }, g);
+    el("ellipse", { cx: 0, cy: 0, rx: 30, ry: 8, fill: "var(--cushion-dark)" }, s);
+    el("path", { d: "M-46 -40 C -44 -6, -22 2, 0 2 C 22 2, 44 -6, 46 -40 Z", fill: "url(#brass)" }, s);
+    el("ellipse", { cx: 0, cy: -40, rx: 46, ry: 10, fill: "var(--brass-dark)" }, s);
+    el("ellipse", { cx: 0, cy: -41, rx: 41, ry: 7.5, fill: "var(--brass)", opacity: .7 }, s);
+    el("path", { d: "M-38 -30 C -30 -14, -18 -8, -8 -6", stroke: "#fff8e6", "stroke-width": 3, fill: "none", opacity: .45, "stroke-linecap": "round" }, s);
+    b.node = g;
+    g.addEventListener("pointerdown", (e) => { e.stopPropagation(); closeMenu(); begin(); strike(i, .85); });
+  });
+  // bowls further back are drawn first so the front row overlaps them
+  bowlDefs.slice().sort((a, b) => a.y - b.y).forEach(b => bowlsG.appendChild(b.node));
+  el("g", { transform: "translate(268 712) rotate(-28)" }, bowlsG).innerHTML =
+    '<rect x="-4" y="-46" width="8" height="52" rx="4" fill="#9c7a5c"/><rect x="-6" y="-58" width="12" height="16" rx="6" fill="#c9a27a"/>';
+
+  /* ---------- rain stick ---------- */
+  const stickWrap = el("g", { transform: "translate(748 612) rotate(-14)", class: "rainstick", role: "button", "aria-label": "雨聲棒" }, bowlsG);
+  const stick = el("g", { class: "stick" }, stickWrap);
+  el("rect", { x: -11, y: -88, width: 22, height: 176, rx: 11, fill: "var(--stick)" }, stick);
+  el("rect", { x: -11, y: -88, width: 7, height: 176, rx: 3.5, fill: "#fff", opacity: .18 }, stick);
+  for (let y = -66; y <= 66; y += 22) el("rect", { x: -11, y, width: 22, height: 4, fill: "var(--stick-band)" }, stick);
+  for (let y = -55; y <= 55; y += 22) el("path", { d: `M-11 ${y} l 11 6 l 11 -6`, stroke: "var(--stick-band)", "stroke-width": 1.5, fill: "none", opacity: .6 }, stick);
+  el("rect", { x: -13, y: -94, width: 26, height: 12, rx: 5, fill: "var(--stick-cap)" }, stick);
+  el("rect", { x: -13, y: 82, width: 26, height: 12, rx: 5, fill: "var(--stick-cap)" }, stick);
+  const grainsG = el("g", { class: "grains" }, stick);
+  for (let i = 0; i < 9; i++) el("circle", { cx: rand(-5, 5), cy: -70 + i * 16, r: 1.8, fill: "var(--stick-cap)" }, grainsG);
+  stickWrap.addEventListener("pointerdown", (e) => { e.stopPropagation(); closeMenu(); begin(); flipStick(); });
+
+  /* ---------- seven yoga mats ---------- */
+  const MAT_COLORS = ["#c9d8c0", "#e8cfc4", "#d6cfe6", "#f0dfb8", "#c4d9de", "#e6c9d4", "#d9d2c3"];
+  const BLANKETS = ["#e7b8a3", "#a9c3b0", "#c7b7dc", "#efd29a", "#a8c4d6"];
+  const mats = [
+    { x: 380, y: 612 }, { x: 620, y: 612 },
+    { x: 330, y: 698 }, { x: 500, y: 698 }, { x: 670, y: 698 },
+    { x: 400, y: 784 }, { x: 600, y: 784 },
+  ];
+  const matsG = document.getElementById("mats");
+  mats.forEach((m, i) => {
+    const g = el("g", { class: "mat free", transform: `translate(${m.x} ${m.y})`, role: "button", "aria-label": `瑜伽墊 ${i + 1}` }, matsG);
+    el("rect", { class: "glow", x: -86, y: -26, width: 172, height: 46, rx: 18, fill: "none", stroke: "var(--brass-light)", "stroke-width": 3 }, g);
+    el("ellipse", { cx: 0, cy: 16, rx: 80, ry: 7, fill: "#000", opacity: .08 }, g);
+    el("rect", { class: "base", x: -78, y: -14, width: 156, height: 32, rx: 12, fill: MAT_COLORS[i] }, g);
+    el("rect", { x: -78, y: -14, width: 156, height: 32, rx: 12, fill: "#000", opacity: .12 }, g);
+    el("rect", { class: "top", x: -78, y: -19, width: 156, height: 30, rx: 12, fill: MAT_COLORS[i] }, g);
+    el("rect", { x: -72, y: -12, width: 30, height: 15, rx: 7, fill: "#fffaf2", opacity: .92 }, g);   // pillow
+    m.node = g; m.who = null;
+    g.addEventListener("pointerdown", (e) => { e.stopPropagation(); closeMenu(); begin(); lieOn(i); });
+  });
+
+  function makeLying(m, { color, shade, blanket, me }) {
+    const g = el("g", { class: "lying" }, m.node);
+    const b = el("g", { class: "lbody" }, g);
+    el("path", { d: "M-52 6 C -58 -20, -24 -30, 4 -29 C 36 -28, 62 -20, 60 6 C 58 12, -50 12, -52 6 Z", fill: color, stroke: shade, "stroke-width": 2 }, b);
+    if (me) el("path", { d: "M-50 -10 C -60 -14, -66 -24, -64 -32 C -56 -30, -50 -20, -50 -10 Z", fill: "var(--leaf)" }, b);
+    const eyes = el("g", { stroke: "#5f5245", "stroke-width": 2.2, "stroke-linecap": "round", fill: "none" }, b);
+    el("path", { d: "M-44 -13 q 4 3.5 8 0" }, eyes); el("path", { d: "M-30 -13 q 4 3.5 8 0" }, eyes);
+    el("ellipse", { cx: -47, cy: -5, rx: 5, ry: 3, fill: "var(--cheek)", opacity: .75 }, b);
+    el("ellipse", { cx: -19, cy: -5, rx: 5, ry: 3, fill: "var(--cheek)", opacity: .75 }, b);
+    el("path", { d: "M-36 -6 q 3 2.5 6 0", stroke: "#5f5245", "stroke-width": 1.8, "stroke-linecap": "round", fill: "none" }, b);
+    const mask = el("g", { class: "mask" }, b);
+    el("path", { d: "M-55 -12 L -48 -13 M-18 -13 L -10 -16", stroke: "var(--mask)", "stroke-width": 2.5, "stroke-linecap": "round" }, mask);
+    el("rect", { x: -49, y: -19, width: 32, height: 11, rx: 5.5, fill: "var(--mask)" }, mask);
+    const bl = el("g", { class: "blanket" }, b);
+    el("path", { d: "M-16 -27 C 14 -32, 46 -28, 63 -15 L 65 9 C 40 14, 0 14, -19 11 C -23 -3, -21 -17, -16 -27 Z", fill: blanket }, bl);
+    el("path", { d: "M-16 -27 C -21 -17, -23 -3, -19 11", stroke: "#fff", "stroke-opacity": .5, "stroke-width": 4, fill: "none" }, bl);
+    [8, 28, 46].forEach(x => el("path", { d: `M${x} -28 C ${x + 3} -14, ${x + 3} 0, ${x} 12`, stroke: "#fff", "stroke-opacity": .28, "stroke-width": 2, fill: "none" }, bl));
+    if (me) el("text", { class: "tag", x: 4, y: 36, "text-anchor": "middle" }, g).textContent = "你";
+    return g;
+  }
+  function occupy(i, who) {
+    mats[i].who = who;
+    mats[i].node.classList.toggle("free", !who);
+  }
+
+  // a few others already resting here
+  const others = [
+    { mat: 0, color: "#fde4e1", shade: "#efc9c3" },
+    { mat: 4, color: "#e6efdc", shade: "#cbd9bd" },
+    { mat: 5, color: "#efe3f6", shade: "#d6c6e2" },
+  ];
+  others.forEach(o => {
+    o.node = makeLying(mats[o.mat], { color: o.color, shade: o.shade, blanket: pick(BLANKETS) });
+    if (Math.random() < .7) o.node.classList.add("blanketed");
+    if (Math.random() < .4) o.node.classList.add("masked");
+    o.node.querySelector(".lbody").style.animationDelay = rand(-6, 0) + "s";
+    occupy(o.mat, o);
+  });
+  setInterval(() => {   // now and then someone tucks in or slips on an eye mask
+    const o = pick(others);
+    o.node.classList.toggle(Math.random() < .5 ? "blanketed" : "masked");
+  }, 25000);
+
+  const me = { mat: null, node: null, blanket: false, mask: false };
+  const blanketBtn = document.getElementById("blanketBtn"), maskBtn = document.getElementById("maskBtn");
+  const dimText = document.querySelector("#dim span");
+  function lieOn(i) {
+    if (mats[i].who && mats[i].who !== me) { setCaption("這張有人了，選另一張吧"); return; }
+    if (me.mat === i) return;
+    if (me.node) { me.node.remove(); occupy(me.mat, null); }
+    me.mat = i;
+    me.node = makeLying(mats[i], { color: "#fffaf2", shade: "#e8dccb", blanket: "var(--blanket)", me: true });
+    me.node.classList.add("plop");
+    me.node.classList.toggle("blanketed", me.blanket);
+    me.node.classList.toggle("masked", me.mask);
+    occupy(i, me);
+    document.body.classList.add("lying-down");
+    document.body.classList.remove("choosing");
+    if (piece !== "breath") setCaption(me.blanket ? "" : "要蓋上毯子嗎？");
+    setTimeout(() => { if (caption.textContent === "要蓋上毯子嗎？") setCaption(""); }, 5000);
+  }
+  function getUp() {
+    if (!me.node) return;
+    me.node.remove(); occupy(me.mat, null);
+    me.mat = null; me.node = null;
+    setMask(false);
+    document.body.classList.remove("lying-down");
+    document.body.classList.add("choosing");
+    if (piece !== "breath") setCaption("選一張發亮的墊子躺下");
+  }
+  function setBlanket(on) {
+    me.blanket = on; blanketBtn.setAttribute("aria-pressed", on);
+    blanketBtn.textContent = on ? "掀開毯子" : "蓋毯子";
+    if (me.node) me.node.classList.toggle("blanketed", on);
+    if (on && caption.textContent === "要蓋上毯子嗎？") setCaption("");
+  }
+  function setMask(on) {
+    me.mask = on; maskBtn.setAttribute("aria-pressed", on);
+    maskBtn.textContent = on ? "拿下眼罩" : "戴眼罩";
+    if (me.node) me.node.classList.toggle("masked", on);
+    document.body.classList.toggle("eyesclosed", on);
+    dimText.classList.toggle("show", on);
+    if (on) setTimeout(() => dimText.classList.remove("show"), 5000);
+  }
+  blanketBtn.addEventListener("click", () => setBlanket(!me.blanket));
+  maskBtn.addEventListener("click", () => setMask(!me.mask));
+  document.getElementById("upBtn").addEventListener("click", getUp);
+
+  /* ---------- audio core ---------- */
+  let ctx, master, bowlBus, ambBus, reverb;
+  function makeImpulse(seconds, decay) {
+    const len = ctx.sampleRate * seconds, buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) {
+      const d = buf.getChannelData(c);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+    }
+    return buf;
+  }
+  const noiseCache = {};
+  function noiseBuffer(seconds, brown) {
+    const key = seconds + (brown ? "b" : "w");
+    if (noiseCache[key]) return noiseCache[key];
+    const len = Math.floor(ctx.sampleRate * seconds), buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      if (brown) { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w;
+    }
+    return (noiseCache[key] = buf);
+  }
+  function loopNoise(brown, seconds = 6) {
+    const s = ctx.createBufferSource(); s.buffer = noiseBuffer(seconds, brown); s.loop = true;
+    s.loopStart = rand(0, seconds / 2); s.start(0, s.loopStart); return s;
+  }
+  function filt(type, freq, q) { const f = ctx.createBiquadFilter(); f.type = type; f.frequency.value = freq; if (q) f.Q.value = q; return f; }
+  function gain(v) { const g = ctx.createGain(); g.gain.value = v; return g; }
+  function lfo(freq, depth, param, type = "sine") {
+    const o = ctx.createOscillator(); o.type = type; o.frequency.value = freq;
+    const g = gain(depth); o.connect(g); g.connect(param); o.start(); return o;
+  }
+  function panned(dest, pan) {
+    if (!ctx.createStereoPanner) return dest;
+    const p = ctx.createStereoPanner(); p.pan.value = pan; p.connect(dest); return p;
+  }
+  function chain(...nodes) { for (let i = 0; i < nodes.length - 1; i++) nodes[i].connect(nodes[i + 1]); return nodes[nodes.length - 1]; }
+
+  function initAudio() {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = gain(1); master.connect(ctx.destination);
+    reverb = ctx.createConvolver(); reverb.buffer = makeImpulse(5, 2.5);
+    chain(reverb, gain(.45), master);
+    bowlBus = gain(.9); bowlBus.connect(master); bowlBus.connect(reverb);
+    ambBus = gain(1); ambBus.connect(master);
+  }
+
+  // Struck bowl: inharmonic partials, each a slightly detuned pair so it "wobbles" like a real bowl.
+  function bowlSound(freq, vol, pan) {
+    const t = ctx.currentTime + .01;
+    const out = gain(vol); out.connect(panned(bowlBus, pan));
+    [[1, .5, 16], [2.71, .28, 11], [5.15, .12, 7], [8.2, .05, 4.5]].forEach(([ratio, amp, dur], k) => {
+      const beat = rand(.6, 1.8) / (k + 1);
+      [-beat / 2, beat / 2].forEach((det) => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = freq * ratio + det;
+        g.gain.setValueAtTime(.0001, t);
+        g.gain.exponentialRampToValueAtTime(amp / 2, t + .008 + k * .004);
+        g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+        o.connect(g); g.connect(out); o.start(t); o.stop(t + dur + .05);
+      });
+    });
+    const n = ctx.createBufferSource(); n.buffer = noiseBuffer(.03, false);
+    chain(n, filt("bandpass", freq * 6, 2), gain(.05), out); n.start(t);
+  }
+
+  // Rain stick: thousands of tiny pebble "ticks" whose density swells and then slowly thins out.
+  const stickBuffers = [];
+  function makeStickBuffer(dur) {
+    const sr = ctx.sampleRate, len = Math.floor(sr * dur), buf = ctx.createBuffer(2, len, sr);
+    const L = buf.getChannelData(0), R = buf.getChannelData(1);
+    const density = (t) => t < .7 ? t / .7 : Math.pow(1 - (t - .7) / (dur - .7), 1.6);
+    let t = 0;
+    while (t < dur) {
+      const d = density(t);
+      t += (1 / (40 + 520 * d)) * rand(.3, 1.7);
+      if (t >= dur) break;
+      const f = rand(2200, 7500), tau = rand(.0008, .003), amp = rand(.04, .16) * (.3 + .7 * d);
+      const pan = .5 + .35 * Math.sin(t * .9) + rand(-.15, .15);
+      const start = Math.floor(t * sr), n = Math.floor(tau * 6 * sr);
+      for (let i = 0; i < n && start + i < len; i++) {
+        const s = Math.sin(6.283 * f * i / sr) * Math.exp(-i / (tau * sr)) * amp;
+        L[start + i] += s * (1 - pan); R[start + i] += s * pan;
+      }
+    }
+    // a soft sandy bed under the ticks
+    for (let i = 0; i < len; i++) {
+      const bed = (Math.random() * 2 - 1) * .012 * density(i / sr);
+      L[i] += bed; R[i] += bed;
+    }
+    return buf;
+  }
+  function rainStickSound(vol) {
+    if (!stickBuffers.length) for (let i = 0; i < 3; i++) stickBuffers.push(makeStickBuffer(rand(6, 7.5)));
+    const src = ctx.createBufferSource(); src.buffer = pick(stickBuffers);
+    const g = gain(vol); chain(src, filt("highpass", 1200), g, panned(bowlBus, .4));
+    src.start(ctx.currentTime + .9);   // starts as the stick tips over
+    return src.buffer.duration;
+  }
+  let stickBusy = false;
+  function flipStick(vol = .9) {
+    if (!ctx || stickBusy) return;
+    stickBusy = true;
+    const dur = rainStickSound(vol);
+    stickWrap.classList.toggle("flipped");
+    setTimeout(() => stickWrap.classList.add("pouring"), 900);
+    setTimeout(() => { stickWrap.classList.remove("pouring"); stickBusy = false; }, 900 + dur * 1000);
+  }
+
+  // Rubbed rim: a long swelling hum that slowly "turns" as the striker circles the bowl.
+  let rimVoices = [];
+  function rimSound(freq, dur, vol, pan) {
+    const t = ctx.currentTime + .02;
+    const env = ctx.createGain();
+    env.gain.setValueAtTime(0, t);
+    env.gain.linearRampToValueAtTime(vol, t + 6);
+    env.gain.setValueAtTime(vol, t + dur - 7);
+    env.gain.linearRampToValueAtTime(0, t + dur);
+    const turn = gain(.85); lfo(rand(.7, 1.1), .15, turn.gain);
+    chain(turn, env, panned(bowlBus, pan));
+    const oscs = [];
+    [[1, .5], [2.71, .22], [5.15, .06]].forEach(([ratio, amp], k) => {
+      const beat = rand(.8, 1.6) / (k + 1);
+      [-beat / 2, beat / 2].forEach(det => {
+        const o = ctx.createOscillator(); o.frequency.value = freq * ratio + det;
+        const g = gain(amp / 2); o.connect(g); g.connect(turn); o.start(t); o.stop(t + dur + .1); oscs.push(o);
+      });
+    });
+    const v = { env, oscs, end: t + dur };
+    rimVoices.push(v);
+    setTimeout(() => { rimVoices = rimVoices.filter(x => x !== v); }, dur * 1000 + 500);
+  }
+  function stopRims() {
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    rimVoices.forEach(v => {
+      v.env.gain.cancelScheduledValues(t); v.env.gain.setValueAtTime(v.env.gain.value, t);
+      v.env.gain.linearRampToValueAtTime(0, t + 2.5);
+      v.oscs.forEach(o => { try { o.stop(t + 2.6); } catch (e) {} });
+    });
+    rimVoices = [];
+  }
+
+  /* ---------- ambiences ---------- */
+  const amb = {};
+  function buildForest(out) {
+    const wg = gain(.05); lfo(.05, .03, wg.gain);
+    chain(loopNoise(true), filt("lowpass", 420), wg, out);
+    const lv = gain(.006); lfo(.13, .005, lv.gain);
+    chain(loopNoise(false), filt("bandpass", 3200, .7), lv, out);
+    chain(loopNoise(false), filt("bandpass", 900, .4), gain(.012), out);
+  }
+  function bird() {
+    const out = gain(rand(.012, .03)); const p = panned(amb.forest, rand(-.9, .9)); out.connect(p); p.connect(reverb);
+    const t0 = ctx.currentTime + .05, notes = Math.floor(rand(2, 6)), base = rand(2600, 4200);
+    for (let i = 0; i < notes; i++) {
+      const t = t0 + i * rand(.11, .2), d = rand(.06, .12), f = base * rand(.9, 1.15);
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(f, t);
+      o.frequency.exponentialRampToValueAtTime(f * rand(1.15, 1.4), t + d * .6);
+      o.frequency.exponentialRampToValueAtTime(f * .9, t + d);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(1, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+      o.connect(g); g.connect(out); o.start(t); o.stop(t + d + .02);
+    }
+    if (Math.random() < .3) setTimeout(() => scene === "forest" && bird(), rand(600, 1500));
+  }
+
+  let waveFilter, waveGain, fizz;
+  function buildSea(out) {
+    waveFilter = filt("lowpass", 500); waveGain = gain(.02);
+    chain(loopNoise(true, 8), waveFilter, waveGain, out);
+    fizz = gain(0); chain(loopNoise(false), filt("highpass", 2500), fizz, out);
+    chain(loopNoise(true), filt("lowpass", 300), gain(.025), out);
+  }
+
+  function buildRain(out) {
+    chain(loopNoise(false), filt("highpass", 500), filt("lowpass", 5200), gain(.035), out);
+    const body = gain(.03); lfo(.08, .01, body.gain);
+    chain(loopNoise(true), filt("lowpass", 320), body, out);
+  }
+  function drips() {
+    const n = Math.floor(rand(2, 6));
+    for (let i = 0; i < n; i++) setTimeout(() => {
+      if (scene !== "rain") return;
+      const t = ctx.currentTime, f = rand(1100, 2600);
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * 1.6, t + .04);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(rand(.008, .02), t + .004); g.gain.exponentialRampToValueAtTime(.0001, t + .08);
+      o.connect(g); g.connect(panned(amb.rain, rand(-.8, .8))); o.start(t); o.stop(t + .1);
+      rippleAt();
+    }, rand(0, 1800));
+  }
+
+  function buildSnow(out) {
+    const bp = filt("bandpass", 480, 4); lfo(.06, 160, bp.frequency);
+    const g = gain(.07); lfo(.04, .04, g.gain);
+    chain(loopNoise(true), bp, g, out);
+    chain(loopNoise(true), filt("lowpass", 200), gain(.02), out);
+  }
+  function chimes() {
+    const notes = [1760, 1976, 2349, 2637, 2960], n = Math.floor(rand(3, 7));
+    const out = panned(amb.snow, rand(-.6, .6)); out.connect(reverb);
+    for (let i = 0; i < n; i++) {
+      const t = ctx.currentTime + i * rand(.12, .35), f = pick(notes);
+      [[1, .012, 2.6], [2.76, .004, 1.2]].forEach(([m, a, d]) => {
+        const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = f * m;
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(a, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+        o.connect(g); g.connect(out); o.start(t); o.stop(t + d + .05);
+      });
+    }
+  }
+
+  function cricket(out, freq, pan, trill, chirp) {
+    const o = ctx.createOscillator(); o.frequency.value = freq;
+    const a = gain(.5); lfo(trill, .5, a.gain, "square");
+    const b = gain(.5); lfo(chirp, .5, b.gain, "square");
+    chain(o, a, b, gain(.004), panned(out, pan)); o.start();
+  }
+  function buildLake(out) {
+    const lap = gain(.03); lfo(.18, .015, lap.gain);
+    chain(loopNoise(true), filt("lowpass", 360), lap, out);
+    cricket(out, 4400, -.6, 28, .9);
+    cricket(out, 4950, .5, 32, .63);
+  }
+  function frog() {
+    const t0 = ctx.currentTime, pulses = Math.random() < .5 ? 2 : 3, f = rand(95, 140);
+    const out = panned(amb.lake, rand(-.7, .7));
+    for (let i = 0; i < pulses; i++) {
+      const t = t0 + i * .13, o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sawtooth"; o.frequency.setValueAtTime(f, t); o.frequency.linearRampToValueAtTime(f * 1.2, t + .07);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.05, t + .01); g.gain.exponentialRampToValueAtTime(.0001, t + .08);
+      chain(o, g, filt("bandpass", 520, 3), out); o.start(t); o.stop(t + .1);
+    }
+  }
+
+  const SCENES = {
+    forest: { name: "森林", theme: "#e4ebdf", build: buildForest, event: bird, every: [4000, 11000] },
+    sea:    { name: "海邊", theme: "#cfe0e6", build: buildSea },
+    rain:   { name: "雨天", theme: "#c5ced2", build: buildRain, event: drips, every: [1200, 3500], precip: "rain" },
+    snow:   { name: "雪地", theme: "#d6e0ea", build: buildSnow, event: chimes, every: [12000, 26000], precip: "snow" },
+    lake:   { name: "湖畔夜", theme: "#b9b6d3", build: buildLake, event: frog, every: [5000, 14000] },
+  };
+
+  // one wave every ~11 s, shared by sound and picture
+  const WAVE = 11000, t0 = performance.now();
+  function waveLevel(now) {
+    const p = ((now - t0) % WAVE) / WAVE;
+    if (p < .38) { const x = p / .38; return x * x * (3 - 2 * x); }
+    return Math.exp(-(p - .38) * 5.5);
+  }
+  setInterval(() => {
+    if (!ctx || !waveGain) return;
+    const L = waveLevel(performance.now()), t = ctx.currentTime;
+    waveGain.gain.setTargetAtTime(.02 + L * .11, t, .12);
+    waveFilter.frequency.setTargetAtTime(380 + L * 1300, t, .12);
+    fizz.gain.setTargetAtTime(L > .6 ? (L - .6) * .02 : 0, t, .25);
+  }, 100);
+
+  /* ---------- scene switching ---------- */
+  let started = false, scene = "forest", ambOn = true, eventTimer = null;
+  const seg = document.getElementById("sceneSeg");
+  Object.entries(SCENES).forEach(([key, s]) => {
+    const b = document.createElement("button");
+    b.textContent = s.name; b.dataset.scene = key; b.setAttribute("aria-pressed", key === scene);
+    b.addEventListener("click", () => setScene(key));
+    seg.appendChild(b);
+  });
+  function setScene(next) {
+    scene = next;
+    document.body.dataset.scene = scene;
+    seg.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.scene === scene));
+    document.querySelector('meta[name="theme-color"]').content = SCENES[scene].theme;
+    canvas.style.opacity = 0;
+    setTimeout(() => { setPrecip(SCENES[scene].precip || null); canvas.style.opacity = 1; }, SCENES[scene].precip ? 300 : 1200);
+    applyAmbience();
+    scheduleEvent();
+  }
+  function applyAmbience() {
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    for (const k in amb) amb[k].gain.setTargetAtTime(ambOn && scene === k ? 1 : 0, t, 1.2);
+  }
+  function scheduleEvent() {
+    clearTimeout(eventTimer);
+    const s = SCENES[scene];
+    if (!ctx || !s.event) return;
+    eventTimer = setTimeout(() => { if (ambOn) s.event(); scheduleEvent(); }, rand(...s.every));
+  }
+
+  /* ---------- striking + visuals ---------- */
+  const mochi = document.getElementById("mochi");
+  function ring(i, slow) {
+    const b = bowlDefs[i];
+    const r = el("ellipse", { class: "soundring", cx: b.x, cy: b.y - 40 * b.size, rx: 40 * b.size, ry: 12 * b.size, style: slow ? "animation-duration:6s" : "" }, bowlsG);
+    setTimeout(() => r.remove(), slow ? 6100 : 4100);
+  }
+  function strike(i, vol) {
+    if (!ctx) return;
+    const b = bowlDefs[i];
+    bowlSound(b.freq, vol, (b.x - 500) / 300);
+    b.node.classList.remove("hit"); void b.node.getBBox(); b.node.classList.add("hit");
+    ring(i);
+    mochi.classList.remove("sway"); void mochi.getBBox(); mochi.classList.add("sway");
+    if (navigator.vibrate) navigator.vibrate(10);
+  }
+  function rim(i, dur, vol) {
+    const b = bowlDefs[i];
+    rimSound(b.freq, dur, vol, (b.x - 500) / 300);
+    const pulses = setInterval(() => ring(i, true), 1800);
+    setTimeout(() => clearInterval(pulses), (dur - 5) * 1000);
+    rimPulseTimers.push(pulses);
+  }
+  let rimPulseTimers = [];
+
+  /* ---------- bowl pieces ---------- */
+  const caption = document.getElementById("caption");
+  function setCaption(text, big) {
+    caption.textContent = text; caption.classList.toggle("big", !!big);
+    caption.style.opacity = text ? .75 : 0;
+  }
+  let token = 0;
+  const later = (tok, ms, fn) => setTimeout(() => { if (tok === token) fn(); }, ms);
+
+  const PIECES = {
+    free: { name: "隨心", desc: "偶爾響起一聲，偶爾有雨聲棒，最自由",
+      play(tok) {
+        const go = () => {
+          if (Math.random() < .15) flipStick(.7); else strike(Math.floor(Math.random() * bowlDefs.length), rand(.45, .75));
+          later(tok, rand(8000, 15000), go);
+        };
+        later(tok, 2500, go);
+      } },
+    slow: { name: "慢板", desc: "低沉的大缽，像慢慢的心跳",
+      play(tok) { let n = 0; const go = () => { strike(BIG, .7); if (++n % 4 === 0) later(tok, 3500, () => strike(3, .35)); later(tok, 7000, go); }; go(); } },
+    rise: { name: "七缽漸升", desc: "七個缽由低到高慢慢響過一輪，再慢慢回來",
+      play(tok) {
+        let up = true;
+        const go = () => {
+          const order = up ? [0, 1, 2, 3, 4, 5, 6] : [6, 5, 4, 3, 2, 1, 0];
+          order.forEach((i, k) => later(tok, k * 3200, () => strike(i, .55)));
+          up = !up;
+          later(tok, 7 * 3200 + rand(12000, 16000), go);
+        };
+        go();
+      } },
+    stick: { name: "雨聲棒與頌缽", desc: "雨聲棒翻轉流過，餘韻中響起一聲缽",
+      play(tok) {
+        const go = () => {
+          flipStick(.9);
+          later(tok, rand(5000, 6500), () => strike(pick([BIG, 1, 3]), .55));
+          later(tok, rand(20000, 26000), go);
+        };
+        later(tok, 1500, go);
+      } },
+    breath: { name: "呼吸引導", desc: "小缽響時吸氣 4 秒，大缽響時吐氣 6 秒",
+      play(tok) {
+        const go = () => {
+          strike(SMALL, .45); setCaption("吸氣", true);
+          later(tok, 4000, () => { strike(BIG, .55); setCaption("吐氣", true); });
+          later(tok, 10000, go);
+        };
+        go();
+      } },
+    cascade: { name: "三缽輪轉", desc: "大、中、小依序響起，再安靜一段",
+      play(tok) {
+        let up = true;
+        const go = () => {
+          const order = up ? [BIG, MID, SMALL] : [SMALL, MID, BIG]; up = Math.random() < .6 ? !up : up;
+          order.forEach((i, k) => later(tok, k * 2600, () => strike(i, .6 - k * .05)));
+          later(tok, rand(17000, 22000), go);
+        };
+        go();
+      } },
+    rim: { name: "磨缽長音", desc: "沿著缽緣慢慢磨出綿長的嗡鳴",
+      play(tok) { let k = 0; const go = () => { const i = [BIG, 3, 1, MID][k++ % 4]; rim(i, 26, .5); later(tok, 30000, go); }; go(); } },
+    none: { name: "只聽自然", desc: "不敲缽，只留下環境的聲音", play() {} },
+  };
+  let piece = "free";
+  function playPiece(next) {
+    piece = next; token++;
+    stopRims(); rimPulseTimers.forEach(clearInterval); rimPulseTimers = [];
+    setCaption("");
+    pieceBtn.textContent = PIECES[piece].name;
+    menu.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.piece === piece));
+    if (ctx) PIECES[piece].play(token);
+  }
+
+  const menu = document.getElementById("menu"), pieceBtn = document.getElementById("pieceBtn");
+  Object.entries(PIECES).forEach(([key, p]) => {
+    const b = document.createElement("button");
+    b.setAttribute("role", "menuitemradio"); b.dataset.piece = key; b.setAttribute("aria-pressed", key === piece);
+    b.innerHTML = `<b>${p.name}</b><span>${p.desc}</span>`;
+    b.addEventListener("click", (e) => { e.stopPropagation(); closeMenu(); begin(); playPiece(key); });
+    menu.appendChild(b);
+  });
+  function closeMenu() { menu.classList.remove("open"); pieceBtn.setAttribute("aria-expanded", "false"); }
+  pieceBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = !menu.classList.contains("open");
+    menu.classList.toggle("open", open); pieceBtn.setAttribute("aria-expanded", open);
+  });
+  document.addEventListener("pointerdown", (e) => { if (!e.target.closest(".menu, #pieceBtn")) closeMenu(); });
+
+  /* ---------- start ---------- */
+  function begin() {
+    if (started) return;
+    started = true;
+    initAudio();
+    for (const k in SCENES) { amb[k] = gain(0); amb[k].connect(ambBus); SCENES[k].build(amb[k]); }
+    applyAmbience(); scheduleEvent();
+    document.getElementById("start").classList.add("gone");
+    setTimeout(() => strike(1, .7), 900);
+    playPiece(piece);
+    if (!me.node) { document.body.classList.add("choosing"); if (piece !== "breath") setCaption("選一張發亮的墊子躺下"); }
+  }
+  document.getElementById("start").addEventListener("click", begin);
+
+  const ambBtn = document.getElementById("ambBtn");
+  ambBtn.addEventListener("click", () => { ambOn = !ambOn; ambBtn.setAttribute("aria-pressed", ambOn); applyAmbience(); });
+
+  /* ---------- timer: gently fades everything out ---------- */
+  const timerSteps = [0, 5, 10, 20, 30];
+  let timerIdx = 0, timerEnd = 0, timerTick = null;
+  const timerBtn = document.getElementById("timerBtn");
+  const fmt = (ms) => { const s = Math.ceil(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+  timerBtn.addEventListener("click", () => {
+    timerIdx = (timerIdx + 1) % timerSteps.length;
+    const mins = timerSteps[timerIdx];
+    clearInterval(timerTick);
+    if (ctx) master.gain.setTargetAtTime(1, ctx.currentTime, .5);
+    if (!mins) { timerBtn.textContent = "計時 不限"; timerBtn.setAttribute("aria-pressed", "false"); return; }
+    timerBtn.setAttribute("aria-pressed", "true");
+    timerEnd = performance.now() + mins * 60000;
+    timerBtn.textContent = `計時 ${mins} 分`;
+    timerTick = setInterval(() => {
+      const left = timerEnd - performance.now();
+      if (left > 0) { timerBtn.textContent = `剩 ${fmt(left)}`; return; }
+      clearInterval(timerTick);
+      if (ctx) master.gain.setTargetAtTime(.0001, ctx.currentTime, 6);
+      timerIdx = 0; timerBtn.textContent = "計時 不限"; timerBtn.setAttribute("aria-pressed", "false");
+      setTimeout(() => {
+        playPiece("none");
+        ambOn = false; ambBtn.setAttribute("aria-pressed", "false"); applyAmbience();
+        setCaption("時間到了，慢慢回來就好");
+        if (ctx) master.gain.setTargetAtTime(1, ctx.currentTime, .1);
+      }, 30000);
+    }, 500);
+  });
+
+  /* ---------- picture loop ---------- */
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    if (scene === "sea") drawShore(waveLevel(now), now / 1000);
+    drawPrecip(dt, now / 1000);
+    requestAnimationFrame(frame);
+  }
+  fitView(); addEventListener("resize", fitView);
+  drawShore(0, 0);
+  setInterval(() => { if (scene === "rain" && !document.hidden) rippleAt(); }, 700);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

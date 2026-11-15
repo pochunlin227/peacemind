@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4ede2">
+<meta name="description" content="焦慮的時候，來這裡喘口氣：跟小麻糬呼吸、敲木魚、躺下聽頌缽。">
+<title>peacemind 喘口氣</title>
+<style>
+  :root {
+    --bg: #f4ede2; --bg2: #ebe1d1; --card: #fffaf2; --ink: #5f5245; --ink-soft: #5f524599;
+    --line: #5f524522; --accent: #c9a27a; --cheek: #f4b2ab; --leaf: #9fb592;
+    --c1: #e4ebdf; --c2: #fbe5d2; --c3: #efe3f6; --c4: #f3e2cf;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #23201e; --bg2: #1b1917; --card: #2c2825; --ink: #e4d8c7; --ink-soft: #e4d8c799;
+      --line: #e4d8c722; --accent: #b8946c; --cheek: #d98f88; --leaf: #7e9572;
+      --c1: #26302a; --c2: #3a2f28; --c3: #322b38; --c4: #352c24;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh; background: radial-gradient(ellipse at 50% 0%, var(--bg) 0%, var(--bg2) 100%) fixed;
+    color: var(--ink); font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  main { max-width: 560px; margin: 0 auto; padding: max(28px, env(safe-area-inset-top)) 16px 40px; }
+  header { text-align: center; margin: 12px 0 24px; }
+  header svg { width: 96px; height: 96px; }
+  header svg .b { transform-box: fill-box; transform-origin: 50% 100%; animation: idle 6s ease-in-out infinite; }
+  @keyframes idle { 0%,100% { transform: scale(1,1); } 40% { transform: scale(1.06,1.1); } }
+  h1 { font-weight: 500; font-size: 26px; letter-spacing: .3em; margin: 6px 0 6px; padding-left: .3em; }
+  header p { margin: 0; font-size: 14px; letter-spacing: .12em; color: var(--ink-soft); line-height: 1.8; }
+
+  .now {
+    display: block; text-decoration: none; color: inherit; text-align: center;
+    background: var(--ink); color: var(--bg); border-radius: 20px; padding: 16px; margin-bottom: 18px;
+    font-size: 16px; letter-spacing: .2em;
+  }
+  .now small { display: block; font-size: 12px; letter-spacing: .1em; opacity: .75; margin-top: 4px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card {
+    display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit;
+    background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px 16px 18px;
+    transition: transform .2s;
+  }
+  .card:active { transform: scale(.98); }
+  .card.wide { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 14px; }
+  .card .pic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; flex: none; }
+  .card .pic svg { width: 40px; height: 40px; }
+  .card b { font-weight: 500; font-size: 16px; letter-spacing: .15em; margin-top: 4px; }
+  .card span { font-size: 13px; color: var(--ink-soft); line-height: 1.6; letter-spacing: .04em; }
+  .card.wide b { margin-top: 0; }
+
+  .note { margin-top: 28px; font-size: 12.5px; line-height: 1.8; color: var(--ink-soft); text-align: center; letter-spacing: .04em; }
+  @media (prefers-reduced-motion: reduce) { header svg .b { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <svg viewBox="-50 -90 100 100" aria-hidden="true">
+      <g class="b">
+        <path d="M-40 0 C -46 -38, -24 -64, 0 -64 C 24 -64, 46 -38, 40 0 C 38 6, -38 6, -40 0 Z" fill="#fffaf2" stroke="#e8dccb" stroke-width="2.5"/>
+        <g stroke="#5f5245" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M-19 -32 q 6 5 12 0"/><path d="M7 -32 q 6 5 12 0"/></g>
+        <ellipse cx="-25" cy="-22" rx="7" ry="4" fill="var(--cheek)" opacity=".75"/>
+        <ellipse cx="25" cy="-22" rx="7" ry="4" fill="var(--cheek)" opacity=".75"/>
+        <path d="M-4 -23 q 4 3 8 0" stroke="#5f5245" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M0 -63 C -2 -74, 4 -82, 14 -84 C 16 -74, 10 -66, 0 -63 Z" fill="var(--leaf)"/>
+      </g>
+    </svg>
+    <h1>喘口氣</h1>
+    <p>焦慮的時候，來這裡待一下<br>不用做對什麼，慢慢來就好</p>
+  </header>
+
+  <a class="now" href="breathe.html">現在很難受？先跟我呼吸<small>吸 4 秒，吐 6 秒，打開就開始</small></a>
+
+  <div class="grid">
+    <a class="card wide" href="singbowls.html">
+      <div class="pic" style="background:var(--c1)">
+        <svg viewBox="-50 -50 100 70" aria-hidden="true"><path d="M-40 -30 C -38 0, -20 8, 0 8 C 20 8, 38 0, 40 -30 Z" fill="#d6a85c"/><ellipse cx="0" cy="-30" rx="40" ry="9" fill="#a97a35"/><path d="M-30 -42 q 30 -14 60 0" stroke="#c9a27a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div><b>聽頌缽</b><br><span>選一張瑜伽墊躺下，蓋上毯子。森林、海邊、雨天、雪地、湖畔夜</span></div>
+    </a>
+    <a class="card" href="breathe.html">
+      <div class="pic" style="background:var(--c2)">
+        <svg viewBox="-50 -75 100 85" aria-hidden="true"><path d="M-40 0 C -46 -38, -24 -64, 0 -64 C 24 -64, 46 -38, 40 0 C 38 6, -38 6, -40 0 Z" fill="#fffaf2" stroke="#e8dccb" stroke-width="3"/><path d="M-19 -32 q 6 5 12 0 M7 -32 q 6 5 12 0" stroke="#5f5245" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <b>跟麻糬呼吸</b><span>看著小麻糬的肚子鼓起、消下去</span>
+    </a>
+    <a class="card" href="muyu.html">
+      <div class="pic" style="background:var(--c4)">
+        <svg viewBox="-50 -60 100 75" aria-hidden="true"><path d="M-40 0 C -44 -34, -10 -50, 4 -50 C 30 -50, 46 -30, 42 0 C 40 10, -38 10, -40 0 Z" fill="#c98f5a"/><path d="M-34 -2 C -10 8, 20 8, 36 -2" stroke="#a46c3d" stroke-width="5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <b>敲木魚</b><span>點一下就「叩」，給手一點事做</span>
+    </a>
+    <a class="card wide" href="temple.html">
+      <div class="pic" style="background:var(--c3)">
+        <svg viewBox="-50 -50 100 80" aria-hidden="true"><path d="M-44 -12 C -30 -18, -24 -30, -16 -36 L 16 -36 C 24 -30, 30 -18, 44 -12 Z" fill="#6f7d6a"/><rect x="-30" y="-12" width="60" height="34" fill="#f6efe3"/><rect x="-10" y="-4" width="20" height="26" fill="#f7d9a8"/></svg>
+      </div>
+      <div><b>麻糬小寺</b><br><span>在小庭院走走，合掌、鞠躬、撥念珠</span></div>
+    </a>
+  </div>
+
+  <p class="note">戴上耳機效果更好<br>如果常常覺得快要昏倒，請也找醫生檢查一下身體 🌿</p>
+</main>
+</body>
+</html>
